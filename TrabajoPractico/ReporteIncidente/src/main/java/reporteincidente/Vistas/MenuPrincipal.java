@@ -39,6 +39,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMAltaIncidente = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMSalir = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -113,6 +114,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Reportes");
+
+        jMenuItem3.setText("Listado De Incidentes");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem3);
+
         jMenuBar1.add(jMenu5);
 
         jMSalir.setText("Salir");
@@ -199,6 +209,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         ventanaCliente.setLocation(x, y);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        ReporteVerIncidentes ventanaCliente = new ReporteVerIncidentes();
+        jEscritorio.removeAll();
+        jEscritorio.repaint();
+        jEscritorio.add(ventanaCliente);
+        ventanaCliente.setVisible(true);
+        int x = (jEscritorio.getWidth() - ventanaCliente.getWidth()) / 2;
+        int y = (jEscritorio.getHeight() - ventanaCliente.getHeight()) / 2;
+        ventanaCliente.setLocation(x, y);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -249,5 +270,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     // End of variables declaration//GEN-END:variables
 }

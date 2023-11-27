@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import reporteincidente.Entidades.Especialidad;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2023-11-26T17:52:42", comments="EclipseLink-2.7.10.v20211216-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2023-11-27T19:03:58", comments="EclipseLink-2.7.10.v20211216-rNA")
 @StaticMetamodel(Tecnico.class)
 public class Tecnico_ { 
 

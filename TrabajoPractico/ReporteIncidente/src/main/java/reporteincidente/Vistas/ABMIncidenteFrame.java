@@ -1,25 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package reporteincidente.Vistas;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import reporteincidente.Entidades.Cliente;
+import reporteincidente.Entidades.Complejidad;
 import reporteincidente.Entidades.Especialidad;
+import reporteincidente.Entidades.Incidente;
 import reporteincidente.Entidades.Servicio;
 import reporteincidente.Entidades.Tecnico;
 import reporteinicidente.Repositorio.ClienteJpaController;
+import reporteinicidente.Repositorio.IncidenteJpaController;
 import reporteinicidente.Repositorio.TecnicoJpaController;
 
-/**
- *
- * @author Li Donni
- */
 public class ABMIncidenteFrame extends javax.swing.JInternalFrame {
+
+    List<Cliente> clienteAux = new ArrayList<>();
+    List<Tecnico> listaTecnicos = new ArrayList<>();
 
     /**
      * Creates new form ABMIncidenteFrame
@@ -88,6 +89,11 @@ public class ABMIncidenteFrame extends javax.swing.JInternalFrame {
         jLabel6.setText("Tecnicos Disponibles:");
 
         jBtnConfirmar.setText("Confirmar");
+        jBtnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnConfirmarActionPerformed(evt);
+            }
+        });
 
         jBtnCancelar.setText("Cancelar");
         jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -185,7 +191,6 @@ public class ABMIncidenteFrame extends javax.swing.JInternalFrame {
         if (!jTxtCuit.getText().isEmpty()) {
             ClienteJpaController controlCliente = new ClienteJpaController();
             codigo = Long.parseLong(jTxtCuit.getText());
-            List<Cliente> clienteAux = new ArrayList<>();
             clienteAux = controlCliente.buscarPorCuit(codigo);
             if (!clienteAux.isEmpty()) {
                 jTxtCodigo.setText(clienteAux.get(0).getId() + "");
@@ -207,29 +212,62 @@ public class ABMIncidenteFrame extends javax.swing.JInternalFrame {
 
     private void jCboxServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCboxServiciosActionPerformed
 
-//        jCboxTecnicos.removeAllItems();
-//        DefaultComboBoxModel<Servicio> modelo = (DefaultComboBoxModel<Servicio>) jCboxServicios.getModel();
-//
-//        Servicio servicio = (Servicio) jCboxServicios.getSelectedItem();
-//
-//        Especialidad unaEspecialidad = new Especialidad();
-//        unaEspecialidad = servicio.getEspecialidad();
-//        TecnicoJpaController controlTecnicos = new TecnicoJpaController();
-//        List<Tecnico> listaTecnicos = new ArrayList<>();
-//        listaTecnicos = controlTecnicos.findTecnicoEntities();
-//        for (Tecnico listaTecnico : listaTecnicos) {
-//            List<Especialidad> listaEsp = new ArrayList<>();
-//            listaEsp = listaTecnico.getEspecialidad();
-//            for (Especialidad especialidad : listaEsp) {
-//                if (especialidad.getId() == servicio.getId()) {
-//                    jCboxTecnicos.addItem(listaTecnico);
-//                }
-//            }
-//
-//        }
+        jCboxTecnicos.removeAllItems();
+        DefaultComboBoxModel<Servicio> modelo = (DefaultComboBoxModel<Servicio>) jCboxServicios.getModel();
+
+        Servicio servicio = (Servicio) jCboxServicios.getSelectedItem();
+
+        Especialidad unaEspecialidad = new Especialidad();
+        unaEspecialidad = servicio.getEspecialidad();
+        TecnicoJpaController controlTecnicos = new TecnicoJpaController();
+        listaTecnicos = controlTecnicos.findTecnicoEntities();
+        for (Tecnico listaTecnico : listaTecnicos) {
+            List<Especialidad> listaEsp = new ArrayList<>();
+            listaEsp = listaTecnico.getEspecialidad();
+            for (Especialidad especialidad : listaEsp) {
+                if (especialidad.getId() == servicio.getId()) {
+                    jCboxTecnicos.addItem(listaTecnico);
+                }
+            }
+
+        }
 
 
     }//GEN-LAST:event_jCboxServiciosActionPerformed
+
+    private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
+
+        LocalDate hoy = LocalDate.now();
+        if ((!jTxtCuit.getText().isEmpty())&&(!clienteAux.isEmpty())&&(!listaTecnicos.isEmpty())) {
+            Incidente unIncidente = new Incidente();
+            unIncidente.setEstado(true);
+            unIncidente.setDescripcion(jTxtDescripcion.getText());
+            unIncidente.setFechaInicio(Date.from(hoy.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            unIncidente.setCliente(clienteAux.get(0));
+            unIncidente.setTecnico(listaTecnicos.get(0));
+            List<Especialidad> listaEspecialidad=new ArrayList<>();
+            listaEspecialidad=listaTecnicos.get(0).getEspecialidad();
+            Complejidad nivelComplejidad=new Complejidad();
+            Servicio elServicio=new Servicio();
+            elServicio= (Servicio) jCboxServicios.getSelectedItem();
+            for (Especialidad especialidad : listaEspecialidad) {
+                if (especialidad.getServicio().getId()==(elServicio.getId())){
+                    nivelComplejidad.setNivel(especialidad.getComplejidad());
+                    JOptionPane.showMessageDialog(this, "Tiempo estimado de resolucion: "+ nivelComplejidad.toString());
+                    break;
+                }
+            }
+            IncidenteJpaController controlIncidente=new IncidenteJpaController();
+            controlIncidente.create(unIncidente);
+            //EN ESTA PARTE AL TECNICO ASIGNADO ENVIO UN EMAIL CON EL PEDIDO DE RESOLUCION.
+            
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Falta informacion");
+        }
+
+
+    }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

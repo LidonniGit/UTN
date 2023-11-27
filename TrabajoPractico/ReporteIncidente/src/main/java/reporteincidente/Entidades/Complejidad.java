@@ -26,6 +26,11 @@ public class Complejidad {
     public int getEstado() {
         return comp.estado();
     }
+
+    @Override
+    public String toString() {
+        return this.comp.tiempoDeResolucion()+"";
+    }
     
     
 }
