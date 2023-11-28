@@ -238,29 +238,29 @@ public class ABMIncidenteFrame extends javax.swing.JInternalFrame {
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
 
         LocalDate hoy = LocalDate.now();
-        if ((!jTxtCuit.getText().isEmpty())&&(!clienteAux.isEmpty())&&(!listaTecnicos.isEmpty())) {
+        if ((!jTxtCuit.getText().isEmpty()) && (!clienteAux.isEmpty()) && (!listaTecnicos.isEmpty())) {
             Incidente unIncidente = new Incidente();
             unIncidente.setEstado(true);
             unIncidente.setDescripcion(jTxtDescripcion.getText());
             unIncidente.setFechaInicio(Date.from(hoy.atStartOfDay(ZoneId.systemDefault()).toInstant()));
             unIncidente.setCliente(clienteAux.get(0));
             unIncidente.setTecnico(listaTecnicos.get(0));
-            List<Especialidad> listaEspecialidad=new ArrayList<>();
-            listaEspecialidad=listaTecnicos.get(0).getEspecialidad();
-            Complejidad nivelComplejidad=new Complejidad();
-            Servicio elServicio=new Servicio();
-            elServicio= (Servicio) jCboxServicios.getSelectedItem();
-            for (Especialidad especialidad : listaEspecialidad) {
-                if (especialidad.getServicio().getId()==(elServicio.getId())){
-                    nivelComplejidad.setNivel(especialidad.getComplejidad());
-                    JOptionPane.showMessageDialog(this, "Tiempo estimado de resolucion: "+ nivelComplejidad.toString());
-                    break;
-                }
-            }
-            IncidenteJpaController controlIncidente=new IncidenteJpaController();
+            List<Especialidad> listaEspecialidad = new ArrayList<>();
+            listaEspecialidad = listaTecnicos.get(0).getEspecialidad();
+            Complejidad nivelComplejidad = new Complejidad();
+            Servicio elServicio = new Servicio();
+            elServicio = (Servicio) jCboxServicios.getSelectedItem();
+//            for (Especialidad especialidad : listaEspecialidad) {
+//                if (especialidad.getServicio().getId() == (elServicio.getId())) {
+//                    nivelComplejidad.setNivel(especialidad.getComplejidad());
+//                    JOptionPane.showMessageDialog(this, "Tiempo estimado de resolucion: " + nivelComplejidad.toString());
+//                    break;
+//                }
+//            }
+            IncidenteJpaController controlIncidente = new IncidenteJpaController();
             controlIncidente.create(unIncidente);
             //EN ESTA PARTE AL TECNICO ASIGNADO ENVIO UN EMAIL CON EL PEDIDO DE RESOLUCION.
-            
+
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Falta informacion");

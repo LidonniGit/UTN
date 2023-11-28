@@ -123,14 +123,14 @@ public class ReporteVerIncidentes extends javax.swing.JInternalFrame {
 
     //CARGO LA INFO EN LA TABLA
     public void cargoTabla() {
-        
-        IncidenteJpaController controlIncidente=new IncidenteJpaController();
-        List<Incidente> listaIncidente=new ArrayList<>();
-        listaIncidente=controlIncidente.findIncidenteEntities();
+
+        IncidenteJpaController controlIncidente = new IncidenteJpaController();
+        List<Incidente> listaIncidente = new ArrayList<>();
+        listaIncidente = controlIncidente.findIncidenteEntities();
         listaIncidente.forEach(incidente -> tabla.addRow(new Object[]{incidente.getId(),
-        incidente.getDescripcion(),incidente.getFechaInicio(),incidente.isEstado(), incidente.getCliente().getRazonSocial(),
-        incidente.getTecnico().getApellido()}));
-        
+            incidente.getDescripcion(), incidente.getFechaInicio(), incidente.isEstado(), incidente.getCliente().getRazonSocial(),
+            incidente.getTecnico().getApellido()}));
+
     }
 
 }

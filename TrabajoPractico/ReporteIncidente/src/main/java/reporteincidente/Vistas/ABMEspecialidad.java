@@ -207,7 +207,7 @@ public class ABMEspecialidad extends javax.swing.JInternalFrame {
         if (especialidadencontrada) {
             respuesta = JOptionPane.showConfirmDialog(
                     null,
-                    "¿Deseas borrar al cliene", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                    "¿Deseas borrar la especialidad", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
                 try {
                     EspecialidadJpaController controlEspecialidad = new EspecialidadJpaController();
@@ -355,12 +355,8 @@ public class ABMEspecialidad extends javax.swing.JInternalFrame {
         List<Especialidad> listaEsp = new ArrayList<>();
         listaEsp = controlaEspecialidad.findEspecialidadEntities();
         borrarFilas();
-        for (Especialidad cuartel : listaEsp) {
-            tabla.addRow(new Object[]{cuartel.getId(), cuartel.getTipo(), cuartel.getComplejidad()});
-
-        }
+        listaEsp.forEach(cuartel->tabla.addRow(new Object[]{cuartel.getId(), cuartel.getTipo(), cuartel.getComplejidad()}));
              
-      
         
     }
    

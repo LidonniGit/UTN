@@ -28,6 +28,7 @@ public class Especialidad implements Serializable {
 
     @Column(name = "complejidad")
     private int complejidad; 
+    
     @OneToOne(mappedBy = "especialidad")
     private Servicio servicio;
 
